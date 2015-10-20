@@ -213,17 +213,18 @@ Parser.POFiles = {
                         }
                         continue;
                 }
-            }
 
-            if (!!message.id && !!message.translation) {
-                message = new Parser.Object(message);
-                escaped = escapeString(message.id);
-                if (!parsed[domain][message.id]) {
-                    parsed[domain][escaped] = [message];
-                } else {
-                    parsed[domain][escaped].push(message);
+                if (!!message.id && !!message.translation) {
+                    message = new Parser.Object(message);
+                    escaped = escapeString(message.id);
+                    if (!parsed[domain][message.id]) {
+                        parsed[domain][escaped] = [message];
+                    } else {
+                        parsed[domain][escaped].push(message);
+                    }
                 }
             }
+
             counter++;
         }
 
