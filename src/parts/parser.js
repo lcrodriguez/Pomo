@@ -151,7 +151,14 @@ Parser.POFiles = {
             Parser.header_info = extractHeaderInfo(has_header_info);
         }
 
-        while (part = parts.shift()) {
+        var splitted = text.split('msgid');
+        for(var i=0;i<splitted.length;i++) {
+            if (splitted[i][0] !== '#') {
+                splitted[i] = 'msgid' + splitted[i];
+            }
+        }
+
+        while (part = splitted.shift()) {
             var message = {},
                 part_lines = !!part ? part.split(/\n/) : [],
                 line = '',
@@ -213,15 +220,15 @@ Parser.POFiles = {
                         }
                         continue;
                 }
+            }
 
-                if (!!message.id && !!message.translation) {
-                    message = new Parser.Object(message);
-                    escaped = escapeString(message.id);
-                    if (!parsed[domain][message.id]) {
-                        parsed[domain][escaped] = [message];
-                    } else {
-                        parsed[domain][escaped].push(message);
-                    }
+            if (!!message.id && !!message.translation) {
+                message = new Parser.Object(message);
+                escaped = escapeString(message.id);
+                if (!parsed[domain][message.id]) {
+                    parsed[domain][escaped] = [message];
+                } else {
+                    parsed[domain][escaped].push(message);
                 }
             }
 
